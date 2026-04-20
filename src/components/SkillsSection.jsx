@@ -14,7 +14,7 @@ export default function SkillsSection({ skills }) {
 
   // Fallback if no skills in DB yet
   const fallbackSkills = {
-    Backend: ["Laravel", "PHP", "MySQL", "REST API", "JWT Auth"],
+    Backend: ["Laravel", "PHP", "MySQL","PostgreSQL", "REST API", "JWT Auth"],
     Frontend: ["React", "Next.js", "Tailwind CSS", "JavaScript"],
     DevOps: ["Git & GitHub", "Supabase", "Server Deployment"],
   };

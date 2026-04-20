@@ -1,21 +1,66 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { usePathname } from "next/navigation";
 
-/**
- * PageLoader — shimmering "La Jade" branded splash screen.
- */
 export default function PageLoader() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(true);
   const [fading, setFading] = useState(false);
+  const isFirst = useRef(true);
+  const fadeTimer = useRef(null);
+  const removeTimer = useRef(null);
+
+  function showLoader() {
+    clearTimeout(fadeTimer.current);
+    clearTimeout(removeTimer.current);
+    setFading(false);
+    setVisible(true);
+  }
+
+  function hideLoader() {
+    fadeTimer.current = setTimeout(() => setFading(true), 80);
+    removeTimer.current = setTimeout(() => setVisible(false), 600);
+  }
+
+  // Intercept all internal link clicks → show loader immediately on click
+  useEffect(() => {
+    const handleClick = (e) => {
+      const anchor = e.target.closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+
+      const isInternal =
+        !href.startsWith("http") &&
+        !href.startsWith("mailto") &&
+        !href.startsWith("tel") &&
+        !href.startsWith("#") &&
+        !href.startsWith("//");
+
+      if (isInternal) showLoader();
+    };
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
+  // Hide once the route has changed and new page rendered
+  useEffect(() => {
+    if (isFirst.current) {
+      isFirst.current = false;
+      // Initial page load: show briefly then fade
+      fadeTimer.current = setTimeout(() => setFading(true), 500);
+      removeTimer.current = setTimeout(() => setVisible(false), 1050);
+      return;
+    }
+    hideLoader();
+  }, [pathname]);
 
   useEffect(() => {
-    // Start fade after 1.6s, fully remove after transition (0.6s)
-    const fadeTimer = setTimeout(() => setFading(true), 1600);
-    const removeTimer = setTimeout(() => setVisible(false), 2200);
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(removeTimer);
+      clearTimeout(fadeTimer.current);
+      clearTimeout(removeTimer.current);
     };
   }, []);
 
@@ -28,14 +73,14 @@ export default function PageLoader() {
         position: "fixed",
         inset: 0,
         zIndex: 9998,
-        backgroundColor: "#0e0c09",
+        backgroundColor: "#0d0d0d",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
         gap: "20px",
         opacity: fading ? 0 : 1,
-        transition: "opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
         pointerEvents: fading ? "none" : "all",
       }}
     >
@@ -46,37 +91,35 @@ export default function PageLoader() {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "400px",
-          height: "400px",
+          width: "360px",
+          height: "360px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(217,119,6,0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(79,158,255,0.06) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
 
       {/* Logo mark */}
       <div style={{ position: "relative" }}>
-        {/* Outer ring — slow pulse */}
         <div
           style={{
             width: "64px",
             height: "64px",
             borderRadius: "50%",
-            border: "1px solid rgba(217,119,6,0.15)",
+            border: "1px solid rgba(79,158,255,0.15)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            animation: "lj-ring-pulse 2s ease-in-out infinite",
+            animation: "jl-ring-pulse 2s ease-in-out infinite",
           }}
         >
-          {/* Inner circle */}
           <div
             style={{
               width: "44px",
               height: "44px",
               borderRadius: "50%",
-              background: "rgba(217,119,6,0.1)",
-              border: "1px solid rgba(217,119,6,0.25)",
+              background: "rgba(79,158,255,0.08)",
+              border: "1px solid rgba(79,158,255,0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -84,55 +127,54 @@ export default function PageLoader() {
           >
             <span
               style={{
-                fontFamily: "Georgia, serif",
-                fontSize: "16px",
+                fontFamily: "var(--font-display, 'Playfair Display', Georgia, serif)",
+                fontSize: "15px",
                 fontWeight: "bold",
-                color: "#d97706",
+                color: "#4f9eff",
                 letterSpacing: "0.05em",
               }}
             >
-              LJ
+              JD
             </span>
           </div>
         </div>
       </div>
 
-      {/* "La Jade" shimmer text */}
+      {/* Shimmer wordmark */}
       <div style={{ position: "relative", overflow: "hidden" }}>
         <span
           style={{
-            fontFamily: "Georgia, serif",
-            fontSize: "22px",
+            fontFamily: "var(--font-display, 'Playfair Display', Georgia, serif)",
+            fontSize: "20px",
             fontWeight: "bold",
-            color: "rgba(255,255,255,0.15)",
-            letterSpacing: "0.08em",
+            color: "rgba(249,240,200,0.12)",
+            letterSpacing: "0.04em",
             position: "relative",
             display: "inline-block",
           }}
         >
-          La Jade
-          {/* Shimmer overlay */}
+          Jalade.dev
           <span
             aria-hidden
             style={{
               position: "absolute",
               inset: 0,
               background:
-                "linear-gradient(90deg, transparent 0%, rgba(217,119,6,0.9) 45%, rgba(255,220,100,1) 50%, rgba(217,119,6,0.9) 55%, transparent 100%)",
+                "linear-gradient(90deg, transparent 0%, rgba(79,158,255,0.9) 45%, rgba(180,220,255,1) 50%, rgba(79,158,255,0.9) 55%, transparent 100%)",
               backgroundSize: "200% 100%",
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              animation: "lj-shimmer 1.8s ease-in-out infinite",
+              animation: "jl-shimmer 1.4s ease-in-out infinite",
             }}
           >
-            La Jade
+            Jalade.dev
           </span>
         </span>
       </div>
 
-      {/* Progress dots */}
-      <div style={{ display: "flex", gap: "6px", marginTop: "4px" }}>
+      {/* Dots */}
+      <div style={{ display: "flex", gap: "6px", marginTop: "2px" }}>
         {[0, 1, 2].map((i) => (
           <div
             key={i}
@@ -140,24 +182,23 @@ export default function PageLoader() {
               width: "4px",
               height: "4px",
               borderRadius: "50%",
-              backgroundColor: "rgba(217,119,6,0.5)",
-              animation: `lj-dot-bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
+              backgroundColor: "rgba(79,158,255,0.4)",
+              animation: `jl-dot-bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
             }}
           />
         ))}
       </div>
 
-      {/* Keyframes injected via style tag */}
       <style>{`
-        @keyframes lj-shimmer {
+        @keyframes jl-shimmer {
           0%   { background-position: -200% center; }
           100% { background-position: 200% center; }
         }
-        @keyframes lj-ring-pulse {
+        @keyframes jl-ring-pulse {
           0%, 100% { transform: scale(1); opacity: 0.6; }
           50%       { transform: scale(1.08); opacity: 1; }
         }
-        @keyframes lj-dot-bounce {
+        @keyframes jl-dot-bounce {
           0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
           40%            { transform: scale(1.2); opacity: 1; }
         }

@@ -61,8 +61,8 @@ export default function Navbar() {
           {/* CTA — links to quote page */}
           <Link
             href="/quote"
-            className="font-mono text-sm px-4 py-2 border border-amber-500/50 text-amber-400
-                       rounded hover:bg-amber-500/10 transition-all"
+            className="font-mono text-sm px-4 py-2 border border-electric-500 text-electric-500
+                       rounded hover:shadow-[0_0_30px_rgba(79,158,255,0.4)] transition-all duration-300"
           >
             Get a Quote
           </Link>
