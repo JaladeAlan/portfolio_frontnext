@@ -96,9 +96,9 @@ export default function Navbar() {
           ))}
           <Link
             href="/quote"
-            className="mt-4 block text-center font-mono text-sm px-4 py-3 bg-amber-600
-                       text-white rounded transition-colors hover:bg-amber-500"
-          >
+            className="mt-4 block text-center font-mono text-sm px-4 py-3 border border-electric-500
+           text-electric-500 rounded hover:bg-electric-500/10 transition-all duration-300"
+            >
             Get a Quote
           </Link>
         </div>
