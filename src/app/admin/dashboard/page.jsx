@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { LogOut, Plus, Edit, Trash2, Eye, FileText } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
-const API = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://localhost:8000/api";
+const API = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
 async function apiFetch(path, options = {}) {
   const token = localStorage.getItem("token");

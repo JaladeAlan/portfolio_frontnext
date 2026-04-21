@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
 
-const LARAVEL_API = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://localhost:8000/api";
+const LARAVEL_API = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });

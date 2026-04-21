@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 
-const API = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://localhost:8000/api";
+const API = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
 export default function AdminLoginPage() {
   const router = useRouter();
