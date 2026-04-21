@@ -66,51 +66,78 @@ export async function getExperience() {
   return data;
 }
 
-// ─── Quotes ───────────────────────────────────────────────────────────────────
+// ─── Messages ─────────────────────────────────────────────────────────────────
 
-/**
- * Submit a quote request directly to Supabase.
- * The quotes table RLS allows public INSERT but no public SELECT.
- *
- * @param {{ name: string, email: string, company?: string, project_type: string, timeline?: string, message: string }} payload
- */
-export async function submitQuote(payload) {
+export async function submitMessage(payload) {
   const { data, error } = await supabase
-    .from("quotes")
-    .insert([
-      {
-        name:         payload.name.trim(),
-        email:        payload.email.trim().toLowerCase(),
-        company:      payload.company?.trim() || null,
-        project_type: payload.project_type,
-        timeline:     payload.timeline || null,
-        message:      payload.message.trim(),
-        status:       "new",
-      },
-    ])
+    .from("messages")
+    .insert([{
+      name:    payload.name.trim(),
+      email:   payload.email.trim().toLowerCase(),
+      message: payload.message.trim(),
+    }])
     .select("id")
     .single();
 
   if (error) throw error;
-  return data; // { id: uuid }
+  return data;
 }
 
-// ─── Admin: read quotes (requires service-role key — server-side only) ────────
+export async function getMessages() {
+  const { data, error } = await supabase
+    .from("messages")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-/**
- * Server-side only. Reads quotes using the service-role key so RLS is bypassed.
- * Never expose SUPABASE_SERVICE_ROLE_KEY to the client.
- */
-export async function getQuotesAdmin() {
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceKey) throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY");
+  if (error) throw error;
+  return data;
+}
 
-  const adminClient = createClient(supabaseUrl, serviceKey);
-  const { data, error } = await adminClient
+export async function markMessageRead(id) {
+  const { error } = await supabase
+    .from("messages")
+    .update({ read: true })
+    .eq("id", id);
+
+  if (error) throw error;
+}
+
+// ─── Quotes ───────────────────────────────────────────────────────────────────
+
+export async function submitQuote(payload) {
+  const { data, error } = await supabase
+    .from("quotes")
+    .insert([{
+      name:         payload.name.trim(),
+      email:        payload.email.trim().toLowerCase(),
+      company:      payload.company?.trim() || null,
+      project_type: payload.project_type,
+      timeline:     payload.timeline || null,
+      message:      payload.message.trim(),
+      status:       "new",
+    }])
+    .select("id")
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function getQuotes() {
+  const { data, error } = await supabase
     .from("quotes")
     .select("*")
     .order("created_at", { ascending: false });
 
   if (error) throw error;
   return data;
+}
+
+export async function updateQuoteStatus(id, status) {
+  const { error } = await supabase
+    .from("quotes")
+    .update({ status })
+    .eq("id", id);
+
+  if (error) throw error;
 }

@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, LogIn } from "lucide-react";
-
-const API = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
+import { supabase } from "@/lib/supabase";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -19,17 +18,13 @@ export default function AdminLoginPage() {
     setError("");
 
     try {
-      const res = await fetch(`${API}/admin/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(form),
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email:    form.email,
+        password: form.password,
       });
 
-      const data = await res.json();
+      if (authError) throw new Error(authError.message);
 
-      if (!res.ok) throw new Error(data.message || "Invalid credentials");
-
-      localStorage.setItem("token", data.access_token);
       router.push("/admin/dashboard");
     } catch (err) {
       setError(err.message);
