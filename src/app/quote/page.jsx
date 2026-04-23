@@ -27,7 +27,7 @@ const TIMELINES = [
   "Not sure yet",
 ];
 
-const email = process.env.NEXT_PUBLIC_OWNER_EMAIL || "lajadelabs@gmail.com";
+const email = process.env.NEXT_PUBLIC_OWNER_EMAIL || "jaladedev@gmail.com";
 
 /* ── Shared field wrapper ─────────────────────────────────────────── */
 function Field({ label, hint, children }) {

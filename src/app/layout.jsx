@@ -1,8 +1,6 @@
 import { Playfair_Display, DM_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import PageLoader from "@/components/PageLoader";
+import ClientLayout from "@/components/ClientLayout";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -35,16 +33,9 @@ export const metadata = {
   description:
     "Full Stack Developer specializing in Laravel & React. I build scalable REST APIs and modern frontend applications. Available for freelance work.",
   keywords: [
-    "Full Stack Developer",
-    "Laravel Developer",
-    "React Developer",
-    "PHP Developer",
-    "Next.js",
-    "Nigeria",
-    "Freelance Developer",
-    "Web Development",
-    "REST API",
-    "JaladeDev",
+    "Full Stack Developer", "Laravel Developer", "React Developer",
+    "PHP Developer", "Next.js", "Nigeria", "Freelance Developer",
+    "Web Development", "REST API", "JaladeDev",
   ],
   authors: [{ name: ownerName, url: siteUrl }],
   creator: ownerName,
@@ -123,10 +114,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-ink-900 text-cream-100 font-sans antialiased">
-        <PageLoader />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

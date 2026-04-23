@@ -142,7 +142,7 @@ export default function AboutSection() {
 
             {/* Actions */}
             <div className="flex flex-wrap gap-3 pt-2">
-              <a
+              {/* <a
                 href="/resume.pdf"
                 download
                 className="inline-flex items-center gap-2 bg-electric-500 hover:bg-electric-400
@@ -151,7 +151,7 @@ export default function AboutSection() {
               >
                 <Download size={16} />
                 Download CV
-              </a>
+              </a> */}
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-2 border border-cream-200/20
