@@ -104,6 +104,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning          // ← add this
       data-scroll-behavior="smooth"
       className={`${playfair.variable} ${dmMono.variable} ${jakarta.variable}`}
     >
@@ -111,6 +112,21 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        {/* Prevent flash: apply saved theme before paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var t = localStorage.getItem('theme');
+                  if (t === 'dark' || (!t)) {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
         />
       </head>
       <body className="bg-ink-900 text-cream-100 font-sans antialiased">

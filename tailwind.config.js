@@ -14,29 +14,27 @@ module.exports = {
         sans: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
       },
       colors: {
-        // cream → now dark text on white
         cream: {
-          50:  "#1a1a1a",
-          100: "#111111",
-          200: "#333333",
-          300: "#555555",
+          50:  "#fefdf8",
+          100: "#fdf9e7",
+          200: "#f9f0c8",
+          300: "#f4e49f",
         },
-        // ink → now white/light surfaces
         ink: {
-          900: "#ffffff",
-          800: "#f5f5f3",
-          700: "#ebebea",
-          600: "#d8d8d5",
-          500: "#b0b0aa",
+          900: "#0d0d0d",
+          800: "#161616",
+          700: "#1e1e1e",
+          600: "#2a2a2a",
+          500: "#3a3a3a",
         },
         electric: {
-          400: "#2563eb",
-          500: "#1d4ed8",
-          600: "#1e40af",
+          400: "#4f9eff",
+          500: "#2563eb",
+          600: "#1d4ed8",
         },
         gold: {
-          400: "#d97706",
-          500: "#b45309",
+          400: "#fbbf24",
+          500: "#f59e0b",
         },
       },
       animation: {

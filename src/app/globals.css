@@ -7,14 +7,35 @@
   --font-mono: "DM Mono", monospace;
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
 
-  /* White theme palette */
+  /* ── Light theme (default) ── */
   --color-bg:      #ffffff;
   --color-surface: #f5f5f3;
   --color-border:  #d8d8d5;
   --color-text:    #111111;
-  --color-muted:   #777770;
+  --color-muted:   #595950;
   --color-accent:  #2563eb;
   --color-gold:    #d97706;
+
+  --loader-bg:     #ffffff;
+  --loader-text:   #111111;
+  --loader-bar:    rgba(0, 0, 0, 0.08);
+  --loader-bar-fill: rgba(0, 0, 0, 0.5); 
+}
+
+/* ── Dark theme ── */
+html.dark {
+  --color-bg:      #0d0d0d;
+  --color-surface: #161616;
+  --color-border:  #2a2a2a;
+  --color-text:    #f9f0c8;
+  --color-muted:   #8a8070;
+  --color-accent:  #4f9eff;
+  --color-gold:    #fbbf24;
+
+  --loader-bg:     #0d0d0d;
+  --loader-text:   #f5f5f5;
+  --loader-bar:    rgba(255, 255, 255, 0.08);
+  --loader-bar-fill: #4f9eff;
 }
 
 * {
@@ -33,9 +54,10 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ── Subtle grain overlay ── */
+/* ── Grain overlay ── */
 body::before {
   content: "";
   position: fixed;
@@ -43,7 +65,7 @@ body::before {
   width: 400%;
   height: 400%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.018;
+  opacity: 0.025;
   animation: grain 8s steps(10) infinite;
   pointer-events: none;
   z-index: 9999;
@@ -87,36 +109,21 @@ h1, h2, h3, h4 {
 
 /* ── Selection ── */
 ::selection {
-  background: #2563eb22;
-  color: #111111;
+  background: #4f9eff33;
+  color: var(--color-text);
 }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f5f5f3;
-}
-::-webkit-scrollbar-thumb {
-  background: #d8d8d5;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track  { background: var(--color-surface); }
+::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
 
 /* ── Button reset ── */
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
+button { font-family: inherit; cursor: pointer; }
 
 /* ── Link ── */
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
 /* ── Line clamp utility ── */
 .line-clamp-3 {
@@ -128,9 +135,7 @@ a {
 }
 
 /* ── Horizontal rule ── */
-hr {
-  border-color: var(--color-border);
-}
+hr { border-color: var(--color-border); }
 
 @keyframes revealText {
   0%   { clip-path: inset(0 100% 0 0); }
@@ -143,3 +148,81 @@ hr {
   50%  { transform: translateX(0); }
   100% { transform: translateX(100%); }
 }
+
+/* ── Light mode overrides for Tailwind ink/cream classes ── */
+/* These swap the semantic meaning of ink/cream in light mode */
+html:not(.dark) .bg-ink-900  { background-color: #ffffff; }
+html:not(.dark) .bg-ink-800  { background-color: #f5f5f3; }
+html:not(.dark) .bg-ink-700  { background-color: #ebebea; }
+html:not(.dark) .bg-ink-600  { background-color: #d8d8d5; }
+html:not(.dark) .bg-ink-500  { background-color: #b0b0aa; }
+
+html:not(.dark) .border-ink-600 { border-color: #d8d8d5; }
+html:not(.dark) .border-ink-500 { border-color: #b8b8b4; }
+
+html:not(.dark) .text-cream-100  { color: #111111; }
+html:not(.dark) .text-cream-200  { color: #333333; }
+html:not(.dark) .text-cream-200\/60  { color: rgba(40, 40, 40, 0.75); }
+html:not(.dark) .text-cream-200\/50  { color: rgba(40, 40, 40, 0.65); }
+html:not(.dark) .text-cream-200\/40  { color: rgba(40, 40, 40, 0.55); }
+html:not(.dark) .text-cream-200\/30  { color: rgba(40, 40, 40, 0.45); }
+html:not(.dark) .text-cream-200\/25  { color: rgba(40, 40, 40, 0.35); }
+html:not(.dark) .text-cream-200\/20  { color: rgba(40, 40, 40, 0.25); }
+html:not(.dark) .text-cream-100\/\[0\.018\] { color: rgba(0,0,0,0.04); }
+
+html:not(.dark) .bg-ink-900\/50  { background-color: rgba(255,255,255,0.7); }
+html:not(.dark) .bg-ink-900\/60  { background-color: rgba(255,255,255,0.8); }
+html:not(.dark) .bg-ink-900\/40  { background-color: rgba(255,255,255,0.6); }
+html:not(.dark) .bg-ink-900\/95  { background-color: rgba(255,255,255,0.97); }
+
+html:not(.dark) .bg-ink-800\/40  { background-color: rgba(245,245,243,0.6); }
+html:not(.dark) .bg-ink-700\/40  { background-color: rgba(235,235,234,0.6); }
+
+html:not(.dark) .text-electric-400 { color: #2563eb; }
+html:not(.dark) .border-electric-400 { border-color: #2563eb; }
+html:not(.dark) .border-electric-400\/30 { border-color: rgba(37,99,235,0.3); }
+html:not(.dark) .bg-electric-400\/10 { background-color: rgba(37,99,235,0.08); }
+html:not(.dark) .bg-electric-500\/10 { background-color: rgba(29,78,216,0.08); }
+html:not(.dark) .border-electric-400\/20 { border-color: rgba(37,99,235,0.2); }
+html:not(.dark) .text-electric-400\/70 { color: rgba(37,99,235,0.7); }
+html:not(.dark) .text-electric-400\/60 { color: rgba(37,99,235,0.6); }
+html:not(.dark) .text-electric-400\/80 { color: rgba(37,99,235,0.8); }
+
+/* Category badge text */
+html:not(.dark) .text-blue-300   { color: #1d4ed8; }
+html:not(.dark) .text-purple-300 { color: #7c3aed; }
+html:not(.dark) .text-green-300  { color: #15803d; }
+
+/* Category badge borders */
+html:not(.dark) .border-blue-400\/30   { border-color: rgba(29, 78, 216, 0.35); }
+html:not(.dark) .border-purple-400\/30 { border-color: rgba(109, 40, 217, 0.35); }
+html:not(.dark) .border-green-400\/30  { border-color: rgba(21, 128, 61, 0.35); }
+
+/* Skill name text — /70 variant used in SkillsSection */
+html:not(.dark) .text-cream-200\/70 { color: rgba(40, 40, 40, 0.8); }
+
+/* Dot accent */
+html:not(.dark) .bg-electric-400\/40 { background-color: rgba(37, 99, 235, 0.35); }
+
+html:not(.dark) .text-cream-200\/55 { color: rgba(40, 40, 40, 0.7); }
+
+/* Scrolled navbar background */
+html:not(.dark) .bg-ink-900\/95 { background-color: rgba(255, 255, 255, 0.97); }
+
+/* Mobile menu background */
+html:not(.dark) .bg-ink-800 { background-color: #f5f5f3; }
+
+/* Nav link muted state */
+html:not(.dark) .text-cream-200\/60 { color: rgba(40, 40, 40, 0.75); }
+
+/* Theme toggle + social icon muted state */
+html:not(.dark) .text-cream-200\/50 { color: rgba(40, 40, 40, 0.65); }
+html:not(.dark) .text-cream-200\/40 { color: rgba(40, 40, 40, 0.55); }
+
+/* Footer label text */
+html:not(.dark) .text-cream-200\/30 { color: rgba(40, 40, 40, 0.5); }
+html:not(.dark) .text-cream-200\/25 { color: rgba(40, 40, 40, 0.4); }
+
+/* Social icon borders */
+html:not(.dark) .border-ink-500 { border-color: #c0c0bc; }
+html:not(.dark) .border-ink-600 { border-color: #d8d8d5; }

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/components/ThemeProvider";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -15,6 +18,7 @@ const socials = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { theme, toggle } = useTheme();
 
   return (
     <footer className="bg-ink-800 border-t border-ink-600 py-14 px-4 sm:px-6">
@@ -69,6 +73,18 @@ export default function Footer() {
           <p className="font-mono text-xs text-cream-200/25">
             © {year} Ayodeji Alalade — All Rights Reserved.
           </p>
+
+            {/* Theme toggle */}
+            <button
+              onClick={toggle}
+              aria-label="Toggle theme"
+              className="w-8 h-8 rounded-lg border border-ink-500 flex items-center justify-center
+                        text-cream-200/40 hover:text-electric-400 hover:border-electric-400/50
+                        transition-all duration-200"
+            >
+              {theme === "dark" ? <Sun size={13} /> : <Moon size={13} />}
+            </button>
+          
           <p className="font-mono text-xs text-cream-200/25">
             Built with Next.js · Laravel · Supabase
           </p>

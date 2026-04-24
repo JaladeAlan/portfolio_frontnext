@@ -66,7 +66,7 @@ export default function PageLoader() {
         position: "fixed",
         inset: 0,
         zIndex: 9998,
-        background: "#ffffff",          // ← was #0d0d0d
+        background: "var(--loader-bg)",          // ← was #0d0d0d
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -82,16 +82,16 @@ export default function PageLoader() {
             fontFamily: "var(--font-display, 'Playfair Display', Georgia, serif)",
             fontSize: "1.9rem",
             letterSpacing: "0.35em",
-            color: "#111111",           // ← was #f5f5f5
+            color: "var(--loader-text)",           // ← was #f5f5f5
           }}
         >
-          <span style={{ opacity: 0.12 }}>Jalade.dev</span>
+          <span style={{ opacity: 0.18 }}>Jalade.dev</span>
           <span
             aria-hidden
             style={{
               position: "absolute",
               inset: 0,
-              color: "#2563eb",         // ← was #4f9eff
+              color: "var(--color-accent)",         // ← was #4f9eff
               animation: "revealText 0.9s ease-in-out infinite",
             }}
           >
@@ -99,12 +99,12 @@ export default function PageLoader() {
           </span>
         </div>
 
-        <div style={{ width: "6rem", height: "1px", background: "rgba(0,0,0,0.08)", overflow: "hidden" }}>
+        <div style={{ width: "6rem", height: "1px", background: "var(--loader-bar)", overflow: "hidden" }}>
           <div
             style={{
               height: "100%",
               width: "100%",
-              background: "#2563eb",    // ← was #4f9eff
+              background: "var(--loader-bar-fill)",    // ← was #4f9eff
               animation: "slideBar 0.9s ease-in-out infinite",
             }}
           />
