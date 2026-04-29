@@ -1,6 +1,7 @@
 import { Playfair_Display, DM_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
+import { address } from "framer-motion/client";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -22,20 +23,20 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://jaladedev.com";
-const ownerName = process.env.NEXT_PUBLIC_OWNER_NAME?.trim() || "Ayodeji Alalade";
+const ownerName = process.env.NEXT_PUBLIC_OWNER_NAME?.trim() || "Ayodeji Joseph Alalade";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: `${ownerName} — Full Stack Developer`,
-    template: "%s | JaladeDev",
+    template: "%s | JaladeDev | Alalade Ayodeji Joseph",
   },
   description:
     "Full Stack Developer specializing in Laravel & React. I build scalable REST APIs and modern frontend applications. Available for freelance work.",
   keywords: [
-    "Full Stack Developer", "Laravel Developer", "React Developer",
-    "PHP Developer", "Next.js", "Nigeria", "Freelance Developer",
-    "Web Development", "REST API", "JaladeDev",
+    "Ayodeji Joseph Alalade", "Full Stack Developer", "Laravel Developer", "React Developer",
+    "PHP Developer", "Next.js", "Nigeria", "Freelance Developer", 
+    "Web Development", "REST API", "JaladeDev", "Software Engineer", "Backend Developer", "Frontend Developer",
   ],
   authors: [{ name: ownerName, url: siteUrl }],
   creator: ownerName,
@@ -96,7 +97,8 @@ const personJsonLd = {
   address: {
     "@type": "PostalAddress",
     addressCountry: "NG",
-    addressLocality: "Lagos",
+    addressRegion: "Oyo State",
+    addressLocality: "Ibadan",
   },
 };
 
@@ -104,7 +106,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning          // ← add this
+      suppressHydrationWarning          
       data-scroll-behavior="smooth"
       className={`${playfair.variable} ${dmMono.variable} ${jakarta.variable}`}
     >
